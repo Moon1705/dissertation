@@ -1,11 +1,12 @@
 import time
 from module.sniff.sniffer import Sniff
+from module.store.data_store import DataStore
 
 def main():
-    sniff = Sniff()
-    sniff.create_redis()
+    data_store = DataStore()
+    sniff = Sniff(interface='eth0', store=data_store)
     sniff.start()
-    time.sleep(10)
+    time.sleep(100)
     sniff.stop()
 
 
