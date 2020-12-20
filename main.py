@@ -4,7 +4,7 @@ from module.store.data_store import DataStore
 
 def main():
     data_store = DataStore()
-    sniff = Sniff(interface='eth0', store=data_store)
+    sniff = Sniffer(interface='eth0', store=data_store)
     sniff.start()
     time.sleep(100)
     sniff.stop()

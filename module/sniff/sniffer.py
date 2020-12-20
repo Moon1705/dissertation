@@ -4,10 +4,12 @@ import subprocess
 from scapy.sendrecv import AsyncSniffer
 from scapy.all import TCP, UDP, IP
 
-class Sniff():
+class Sniffer():
 
     def __init__(self, interface, store) -> None:
         self.interface = interface
+        self.status = False
+        self.sniff =  AsyncSniffer(iface=self.interface, prn=self.__pkt_callback, store=False)
         self.store = store
         self.__take_open_ports()
         self.__take_ip_interface()
@@ -31,8 +33,18 @@ class Sniff():
                 self.store.write(json.dumps(event))                 
     
     def start(self) -> None:
-        self.sniff = AsyncSniffer(iface=self.interface, prn=self.__pkt_callback, store=False)
         self.sniff.start()
+        self.status = True
 
     def stop(self) -> None:
         self.sniff.stop()
+        self.status = False
+
+    def restart(self) -> None:
+        self.sniff.stop()
+        self.sniff.start()
+        self.status = True
+
+    def status(self) -> bool:
+        return self.status
+
