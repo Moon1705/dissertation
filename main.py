@@ -4,11 +4,11 @@ from module.store import DataStore
 from module.analytics import Analytics 
 
 def main():
-    analytics = Analytics()
-    data_store = DataStore(analytics)
+    data_store = DataStore()
     sniff = Sniffer(interface='eth0', store=data_store)
+    analytics = Analytics(data_store)
     sniff.start()
-    time.sleep(30)
+    time.sleep(60)
     sniff.stop()
 
 
