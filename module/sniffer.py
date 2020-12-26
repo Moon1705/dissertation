@@ -11,6 +11,7 @@ class Sniffer:
         self.__open_ports = self.__run_command_os("sudo lsof -i -n -P | grep LISTEN | awk '{print $9}' | awk -F: '{print $2}'")
         self.__ip_interface = self.__run_command_os("ip add show " + self.interface + " | grep 'inet' | awk '{print $2}' | awk -F/ '{print $1}'")
         self.__sniff =  AsyncSniffer(iface=self.interface, prn=self.__pkt_callback, store=False)
+        self.__sniff.start()
 
     def __run_command_os(self, cmd) -> tuple:
         ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
