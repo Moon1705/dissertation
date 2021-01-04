@@ -1,7 +1,7 @@
 import threading
 from module.sniffer import Sniffer
 from module.store import DataStore
-from module.analytics import Analytics 
+from module.analytics import Analytics
 
 def main():
     data_store = DataStore()
