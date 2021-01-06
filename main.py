@@ -14,6 +14,6 @@ def main(config):
 
 
 if __name__ == '__main__':
-    with open('settings.conf', 'r', encoding='utf-8') as file:
+    with open('config/settings.conf', 'r', encoding='utf-8') as file:
         config = json.load(file)
     main(config)
