@@ -1,4 +1,5 @@
 import datetime
+import logging
 import subprocess
 from scapy.sendrecv import AsyncSniffer
 from scapy.all import TCP, UDP, IP
@@ -6,6 +7,7 @@ from scapy.all import TCP, UDP, IP
 class Sniffer:
 
     def __init__(self, interface, excluded_ips, store) -> None:
+        logging.info(f'Create object Sniffer with interface {interface}')
         self.interface = interface
         self.excluded_ips = excluded_ips
         self.__store = store
@@ -15,8 +17,13 @@ class Sniffer:
         self.__sniff.start()
 
     def __run_command_os(self, cmd) -> tuple:
-        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
-        return tuple(set(str(ps.communicate()[0])[2:-3].split('\\n')))
+        try:
+            ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+            result_command =  tuple(set(str(ps.communicate()[0])[2:-3].split('\\n')))
+        except Exception:
+            result_command = ()
+        logging.info(f'Command {cmd} return result {result_command}')
+        return result_command
 
     def __pkt_callback(self, pkt) -> None:
         if (IP in pkt):
@@ -25,7 +32,14 @@ class Sniffer:
                 self.__store.write(event)
     
     def start(self) -> None:
-        self.__sniff.start()
+        try:
+            self.__sniff.start()
+            logging.inf('Sniffer start')
+        except Exception:
+            logging.exception("Sniffer cann't start")
+            logging.info('Program stop')
+            exit()
 
     def stop(self) -> None:
         self.__sniff.stop()
+        logging.info('Sniffer stop')

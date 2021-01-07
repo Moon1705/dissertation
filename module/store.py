@@ -1,8 +1,11 @@
 import datetime
+import logging
+
 
 class DataStore:
 
     def __init__(self) -> None:
+        logging.info('Create object Datastore')
         self.__store = dict()
 
     def write(self, event) -> None:

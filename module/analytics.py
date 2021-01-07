@@ -1,3 +1,4 @@
+import logging
 import datetime
 from functools import reduce
 from collections import OrderedDict
@@ -5,6 +6,7 @@ from collections import OrderedDict
 class Analytics:
 
     def __init__(self, store, count_max_events, check_time, model) -> None:
+        logging.info('Create object Analytics')
         self.__store = store.read_all()
         self.__model = model
         self.__check(count_max_events, check_time)
@@ -36,7 +38,7 @@ class Analytics:
         ratio_uniq_ports = len(set(map(lambda x: x['port_dst'], self.__store[ip]['events']))) / count_ip_events
         event_info = {"count": ratio_count, "tcp": ratio_tcp, "udp": ratio_udp, "tcp_syn": ratio_tcp_syn, "tcp_ack": ratio_tcp_ack, "tcp_fin": ratio_tcp_fin, "tcp_null": ratio_tcp_null, "tcp_xmas": ratio_tcp_xmas, "tcp_maimon": ratio_tcp_maimon, "tcp_other": ratio_tcp_other, "uniq_ports": ratio_uniq_ports}
         if not self.__model.check_event(list(dict(OrderedDict(sorted(event_info.items()))).values())):
-            print(f"{ip} - {event_info}")
+            logging.info(f'Bad event: {ip} - {event_info}')
 
     def __take_count_flag_events(self, ip, flag) -> int:
         return len(list(filter(lambda x: x['transport_protocol_flag'] == flag, self.__store[ip]['events'])))

@@ -1,5 +1,6 @@
 import random
 import json
+import logging
 
 
 def create_raw_data():
@@ -62,5 +63,6 @@ def create_data(save_data_path):
     data = check_detection(create_raw_data())
     good = len(list(filter(lambda x: x['detection'] == 'good', data)))
     bad = len(data) - good
-    print(f'Good: {good} and bad: {bad}')
+    logging.info(f'Data create. Good events: {good} and bad events: {bad}')
     create_json(data, save_data_path)
+    logging.info(f'Data save. Path: {save_data_path}')
