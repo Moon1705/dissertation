@@ -26,7 +26,7 @@ class Analytics:
         count_all_events = reduce(lambda a, x: a + len(x['events']), self.__store.values(), 0)
         count_ip_events = len(self.__store[ip]['events'])
         ratio_count = count_ip_events / count_all_events 
-        ratio_udp = self.__take_count_flag_events(ip, 'None') / count_all_events
+        ratio_udp = self.__take_count_flag_events(ip, 'None') / count_ip_events
         ratio_tcp = 1.0 - ratio_udp
         ratio_tcp_syn = self.__take_count_flag_events(ip, '2') / count_ip_events
         ratio_tcp_ack = self.__take_count_flag_events(ip, '16') / count_ip_events
