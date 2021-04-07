@@ -1,3 +1,5 @@
+mport numpy as np
+import json
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
@@ -16,6 +18,8 @@ ax = fig.add_subplot(1,1,1)
 ax.set_xlabel('PCA 1', fontsize = 15)
 ax.set_ylabel('PCA 2', fontsize = 15)
 ax.set_title('2 component PCA', fontsize = 20)
+colors = ['r', 'b']
+targets = ['good', 'bad']
 ax.scatter(pc[:750,0], pc[:750,1], c=colors[1], s = 50)
 ax.scatter(pc[750:,0], pc[750:,1], c=colors[0], s = 50)
 ax.legend(targets)
